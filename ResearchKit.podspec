@@ -9,7 +9,7 @@ Pod::Spec.new do |s|
   s.source       = { :git => 'https://github.com/ResearchKit/ResearchKit.git', :tag => s.version.to_s }
   s.public_header_files = `./scripts/find_headers.rb --public --private`.split("\n")
   s.source_files = 'ResearchKit/**/*.{h,m,swift}'
-  s.resources    = 'ResearchKit/**/*.{fsh,vsh}', 'ResearchKit/Animations/**/*.m4v', 'ResearchKit/Artwork.xcassets', 'ResearchKit/Localized/*.lproj'
+  s.resources    = 'scripts/*.rb','ResearchKit/**/*.{fsh,vsh}', 'ResearchKit/Animations/**/*.m4v', 'ResearchKit/Artwork.xcassets', 'ResearchKit/Localized/*.lproj'
   s.platform     = :ios, '11.0'
   s.requires_arc = true
 end

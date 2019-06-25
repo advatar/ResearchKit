@@ -96,6 +96,12 @@ ORK_CLASS_AVAILABLE
  */
 @property (nonatomic, assign) BOOL captureRaw;
 
+/**
+ Use front camera
+ */
+@property (atomic) BOOL frontCamera;
+
+
 @end
 
 NS_ASSUME_NONNULL_END

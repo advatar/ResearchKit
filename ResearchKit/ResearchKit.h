@@ -45,6 +45,7 @@
 #import <ResearchKit/ORKPDFViewerStep.h>
 #import <ResearchKit/ORKQuestionStep.h>
 #import <ResearchKit/ORKRegistrationStep.h>
+#import <ResearchKit/ORKProfileStep.h>
 #import <ResearchKit/ORKReviewStep.h>
 #import <ResearchKit/ORKSignatureStep.h>
 #import <ResearchKit/ORKTableStep.h>
@@ -71,6 +72,7 @@
 #import <ResearchKit/ORKActiveTaskResult.h>
 #import <ResearchKit/ORKCollectionResult.h>
 #import <ResearchKit/ORKConsentSignatureResult.h>
+#import <ResearchKit/ORKHeartRateResult.h>
 #import <ResearchKit/ORKPasscodeResult.h>
 #import <ResearchKit/ORKQuestionResult.h>
 #import <ResearchKit/ORKSignatureResult.h>
@@ -130,5 +132,10 @@
 #import <ResearchKit/ORKTouchAbilityScrollTrial.h>
 #import <ResearchKit/ORKTouchAbilityPinchTrial.h>
 #import <ResearchKit/ORKTouchAbilityRotationTrial.h>
+
+
+#import <ResearchKit/CRFHeartRateBPMSample.h>
+#import <ResearchKit/CRFPixelSample.h>
+#import <ResearchKit/ORKHeartRateVideoProcessor.h>
 
 #import <ResearchKit/ORKDeprecated.h>

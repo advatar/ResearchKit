@@ -51,6 +51,7 @@
 #import "ORKAudioLevelNavigationRule.h"
 #import "ORKAudioRecorder.h"
 #import "ORKAudioStep.h"
+#import "ORKHeartRateStep.h"
 #import "ORKCompletionStep.h"
 #import "ORKCountdownStep.h"
 #import "ORKEnvironmentSPLMeterStep.h"
@@ -549,6 +550,123 @@ NSString *const ORKTappingStepIdentifier = @"tapping";
     
     ORKOrderedTask *task = [[ORKOrderedTask alloc] initWithIdentifier:identifier steps:[steps copy]];
     
+    return task;
+}
+
+#pragma mark - heartRateTask
+
+NSString *const ORKHeartRateStepIdentifier = @"heartrate";
+
++ (ORKNavigableOrderedTask *)heartRateTaskWithIdentifier:(NSString *)identifier
+                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                       speechInstruction:(nullable NSString *)speechInstruction
+                                  shortSpeechInstruction:(nullable NSString *)shortSpeechInstruction
+                                                duration:(NSTimeInterval)duration
+                                       recordingSettings:(nullable NSDictionary *)recordingSettings
+                                                 options:(ORKPredefinedTaskOption)options {
+
+    recordingSettings = recordingSettings ? : @{};
+
+    if (options & ORKPredefinedTaskOptionExcludeHeartRate) {
+        @throw [NSException exceptionWithName:NSGenericException reason:@"Heart rate collection cannot be excluded from heart rate task" userInfo:nil];
+    }
+
+    NSMutableArray *steps = [NSMutableArray array];
+    if (!(options & ORKPredefinedTaskOptionExcludeInstructions)) {
+        {
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction0StepIdentifier];
+            step.title = ORKLocalizedString(@"HEART_RATE_TASK_TITLE", nil);
+            step.text = intendedUseDescription;
+            step.detailText = ORKLocalizedString(@"HEART_RATE_INTENDED_USE", nil);
+            step.image = [UIImage imageNamed:@"phonewaves" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.shouldTintImages = YES;
+
+            ORKStepArrayAddStep(steps, step);
+        }
+
+        {
+            ORKInstructionStep *step = [[ORKInstructionStep alloc] initWithIdentifier:ORKInstruction1StepIdentifier];
+            step.title = ORKLocalizedString(@"HEART_RATE_TASK_TITLE", nil);
+            step.text = speechInstruction ? : ORKLocalizedString(@"HEART_RATE_INTRO_TEXT", nil);
+            step.detailText = ORKLocalizedString(@"HEART_RATE_CALL_TO_ACTION", nil);
+            step.image = [UIImage imageNamed:@"phonesoundwaves" inBundle:[NSBundle bundleForClass:[self class]] compatibleWithTraitCollection:nil];
+            step.shouldTintImages = YES;
+
+            ORKStepArrayAddStep(steps, step);
+        }
+    }
+
+    {
+        ORKCountdownStep *step = [[ORKCountdownStep alloc] initWithIdentifier:ORKCountdownStepIdentifier];
+        step.stepDuration = 5.0;
+        step.title = ORKLocalizedString(@"HEART_RATE_TASK_TITLE", nil);
+
+        // Collect audio during the countdown step too, to provide a baseline.
+        //step.recorderConfigurations = @[[[ORKAudioRecorderConfiguration alloc] initWithIdentifier:ORKAudioRecorderIdentifier
+        //                                                                        recorderSettings:recordingSettings]];
+
+        ORKStepArrayAddStep(steps, step);
+    }
+
+    {
+        ORKHeartRateStep *step = [[ORKHeartRateStep alloc] initWithIdentifier:ORKHeartRateStepIdentifier];
+        step.title = ORKLocalizedString(@"HEART_RATE_TASK_TITLE", nil);
+        step.text = shortSpeechInstruction ? : ORKLocalizedString(@"HEART_RATE_INSTRUCTION", nil);
+
+
+        step.recorderConfigurations = @[[[ORKHeartRateRecorderConfiguration alloc] initWithIdentifier:ORKHeartRateRecorderIdentifier
+                                                                                     recorderSettings:recordingSettings]];
+        step.stepDuration = duration;
+        step.shouldContinueOnFinish = NO;
+        ORKStepArrayAddStep(steps, step);
+    }
+
+    {
+        ORKQuestionStep *commentStep = [ORKQuestionStep questionStepWithIdentifier:ORKEditSpeechTranscript0StepIdentifier
+                                                                             title:ORKLocalizedString(@"HEART_RATE_TASK_TITLE", nil)
+                                                                          question:ORKLocalizedString(@"HEART_RATE_COMMENT_QUESTION", nil)
+                                                                            answer:[ORKTextAnswerFormat new]];
+        commentStep.text = ORKLocalizedString(@"HEART_RATE_COMMENT_TEXT", nil);
+        commentStep.optional = YES;
+        ORKStepArrayAddStep(steps, commentStep);
+    }
+
+    /*
+     {
+     let textChoice0Text = NSLocalizedString("Not at all", comment: "")
+     let textChoice1Text = NSLocalizedString("Not affected", comment: "")
+     let textChoice2Text = NSLocalizedString("Not affected, but troublesome", comment: "")
+     let textChoice3Text = NSLocalizedString("Affected", comment: "")
+     let textChoice4Text = NSLocalizedString("Discontinued", comment: "")
+     // The text to display can be separate from the value coded for each choice:
+     let textChoices = [
+     ORKTextChoice(text: textChoice0Text,  value: "0" as NSCoding & NSCopying & NSObjectProtocol),
+     ORKTextChoice(text: textChoice1Text,  value: "1" as NSCoding & NSCopying & NSObjectProtocol),
+     ORKTextChoice(text: textChoice2Text,  value: "2" as NSCoding & NSCopying & NSObjectProtocol),
+     ORKTextChoice(text: textChoice3Text,  value: "3" as NSCoding & NSCopying & NSObjectProtocol),
+     ORKTextChoice(text: textChoice4Text,  value: "4" as NSCoding & NSCopying & NSObjectProtocol)
+     ]
+
+     let answerFormat = ORKAnswerFormat.choiceAnswerFormat(with: .singleChoice, textChoices: textChoices)
+
+     let question = NSLocalizedString("How does your symptoms affect your daily activity?", comment: "")
+     let ehraStep = ORKQuestionStep(identifier: "ehra", title: title, question: question, answer: answerFormat)
+
+     ehraStep.isOptional = false
+     }
+     */
+
+    /*
+     if (!(options & ORKPredefinedTaskOptionExcludeConclusion)) {
+     ORKInstructionStep *step = [self makeHeartRateCompletionStep];
+     step.detailText = @"This is the detailText";
+     step.footnote = ORKLocalizedString(@"HEART_RATE_DISCLAIMER", nil);
+     ORKStepArrayAddStep(steps, step);
+     }
+     */
+
+    ORKNavigableOrderedTask *task = [[ORKNavigableOrderedTask alloc] initWithIdentifier:identifier steps:steps];
+
     return task;
 }
 

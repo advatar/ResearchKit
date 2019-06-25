@@ -220,6 +220,15 @@ NS_ASSUME_NONNULL_BEGIN
                                                     options:(ORKPredefinedTaskOption)options;
 
 
+
++ (ORKNavigableOrderedTask *)heartRateTaskWithIdentifier:(NSString *)identifier
+                                  intendedUseDescription:(nullable NSString *)intendedUseDescription
+                                       speechInstruction:(nullable NSString *)speechInstruction
+                                  shortSpeechInstruction:(nullable NSString *)shortSpeechInstruction
+                                                duration:(NSTimeInterval)duration
+                                       recordingSettings:(nullable NSDictionary *)recordingSettings
+                                                 options:(ORKPredefinedTaskOption)options;
+
 /**
  Returns a predefined task that enables an audio recording WITH a check of the audio level.
  

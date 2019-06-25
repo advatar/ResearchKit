@@ -291,6 +291,7 @@
 }
 
 - (void)queue_SetupCaptureSession {
+    AVCaptureDevice *device;
     // Create the session
     _captureSession = [[AVCaptureSession alloc] init];
     [_captureSession beginConfiguration];
@@ -298,7 +299,13 @@
     _captureSession.sessionPreset = AVCaptureSessionPresetPhoto;
     _captureRaw = [self imageCaptureStep].captureRaw;
     // Get the camera
-    AVCaptureDevice *device = [AVCaptureDevice defaultDeviceWithMediaType:AVMediaTypeVideo];
+    ORKImageCaptureStep *step = _imageCaptureView.imageCaptureStep;
+    if (step.frontCamera) {
+        device = [AVCaptureDevice defaultDeviceWithDeviceType: AVCaptureDeviceTypeBuiltInWideAngleCamera mediaType: AVMediaTypeVideo position: AVCaptureDevicePositionFront];
+    } else {
+        device = [AVCaptureDevice defaultDeviceWithMediaType: AVMediaTypeVideo];
+    }
+
     if (device) {
         // Configure the input and output
         AVCaptureDeviceInput *input = [AVCaptureDeviceInput deviceInputWithDevice:device error:nil];

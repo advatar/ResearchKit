@@ -154,6 +154,14 @@ ORK_CLASS_AVAILABLE
 @end
 
 
+
+ORK_CLASS_AVAILABLE
+@interface ORKHeartRateRecorderConfiguration : ORKRecorderConfiguration
+@property (nonatomic, readonly, nullable) NSDictionary *recorderSettings;
+- (instancetype)initWithIdentifier:(NSString *)identifier recorderSettings:(NSDictionary *)recorderSettings NS_DESIGNATED_INITIALIZER;
+- (instancetype)initWithCoder:(NSCoder *)aDecoder NS_DESIGNATED_INITIALIZER;
+@end
+
 /**
  The `ORKAudioRecorderConfiguration` class represents a configuration that records
  audio data during an active step.
