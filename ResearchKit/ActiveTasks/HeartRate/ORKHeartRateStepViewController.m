@@ -159,9 +159,16 @@
 
 - (void)doSample {
 
-    NSString *modelName = [[UIDevice currentDevice] name];
+#if TARGET_IPHONE_SIMULATOR
+    BOOL isSimulator = YES;
+#else
+    BOOL isSimulator = NO;
+#endif
 
-    if ([modelName hasSuffix:@"Simulator"]) {
+    //NSString *modelName = [[UIDevice currentDevice] name];
+
+ //   if ([modelName hasSuffix:@"Simulator"]) {
+    if (isSimulator) {
         double value = (double)arc4random_uniform(100)/100.0;
         _bpm = 62 + arc4random_uniform(5);
         _hrv = 120 + arc4random_uniform(40);

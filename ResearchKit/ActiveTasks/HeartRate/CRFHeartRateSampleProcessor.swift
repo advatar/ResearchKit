@@ -145,9 +145,9 @@ extension CRFPixelSample : PixelSample {
         let highConfidenceSamples = self.bpmSamples.filter { $0.confidence >= CRFMinConfidence }
         guard highConfidenceSamples.count > 3 else { return nil }
 
-        for sample in highConfidenceSamples {
+        /*for sample in highConfidenceSamples {
             print(sample.bpm, sample.timestamp)
-        }
+        }*/
 
         if let dummy = highConfidenceSamples.last?.bpm {
             let number = NSNumber(value: dummy)

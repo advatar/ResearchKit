@@ -297,6 +297,21 @@
 "AMSLER_GRID_LEFT_EYE" = "Left Eye";
 "AMSLER_GRID_RIGHT_EYE" = "Right Eye";
 
+/* Heart Rateactive task. */
+"HEART_RATE_TASK_TITLE" = "Heart Rate";
+"HEART_RATE_CALL_TO_ACTION" = "Tap Get Started to begin.";
+"HEART_RATE_INSTRUCTION" = "Gently cover the flash and camera with a finger";
+"HEART_RATE_INTRO_TEXT" = "";
+"HEART_RATE_INTENDED_USE" = "This activity measures your heart rate using the video camera.";
+"HEART_RATE_GENERIC_ERROR_LABEL" = "Unable to compute";
+"HEART_RATE_LENS_UNCOVERED" = "The lens is uncovered.";
+"HEART_RATE_TASK_COMPLETE_TITLE" = "Measurement Complete";
+"HEART_RATE_TASK_COMPLETE_TEXT" = "These are your results";
+"HEART_RATE_DISCLAIMER" = "This not a diagnotistics tool. If you suspect atrial fibrillation, contact a doctor.";
+
+"HEART_RATE_COMMENT_TEXT" = "Leave a comment";
+"HEART_RATE_COMMENT_QUESTION" = "How do you feel?";
+
 /* Audio active task. */
 "AUDIO_TASK_TITLE" = "Voice";
 "AUDIO_CALL_TO_ACTION" = "Tap Get Started to begin.";
